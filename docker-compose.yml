@@ -1,0 +1,53 @@
+version: "3.2"
+services:
+
+    api-gateway:
+        build: "./api-gateway"
+        depends_on:
+             - listings-service
+             - users-service
+        volumes:
+            - ./api-gateway:/opt/app
+        ports:
+            - 7000:7000
+
+    listings-service:
+        build: "./listings-service"
+        depends_on:
+             - listings-service-db
+        volumes:
+            - ./listings-service:/opt/app
+        environment: 
+            - DB_URI=mysql://root:root1@listings-service-db
+            - DB_NAME=db
+        ports:
+            - 7100:7100
+        
+    listings-service-db:
+        image: mysql:5.7.20
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: root1
+        ports:
+            - 7200:3306
+    
+    users-service:
+        build: "./users-service"
+        depends_on:
+            - users-service-db
+        volumes:
+            - ./users-service:/opt/app
+        environment: 
+            - DB_URI=mysql://root:root@users-service-db
+            - DB_NAME=db
+        ports:
+            - 7101:7101
+
+    users-service-db:
+        image: mysql:5.7.20
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 7201:3306   
+        
