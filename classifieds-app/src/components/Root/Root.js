@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import Login from './Login';
 
 const Container = styled.div`
     display: flex;
@@ -28,7 +29,7 @@ const Root = () => {
     return <Wrapper>
         <Container>
             <Content>Root classifieds app</Content>
-            <Sidebar>sidebar</Sidebar>
+            <Sidebar><Login></Login></Sidebar>
         </Container>
     </Wrapper>
 }
