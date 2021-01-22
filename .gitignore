@@ -1,8 +1,4 @@
-users-service/node_modules/*
-users-service/yarn-error.log
-api-gateway/node_modules/*
-listings-service/node_modules/*
-listings-service/yarn-error.log
-classifieds/cache/*
-classifieds/dist/*
-classifieds/node_modules/*
+**/node_modules/
+**/yarn-error.log
+**/.cache/
+**/dist/
