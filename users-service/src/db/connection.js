@@ -9,8 +9,7 @@ const FULL_DB_URI = DB_URI + "/" + DB_NAME;
 
 const sequelize = new Sequelize(FULL_DB_URI, {
     dialectOptions: {
-        charset: "utf8",
-        multiplestatements: true
+        charset: "utf8"
     },
     logging: true
 });
