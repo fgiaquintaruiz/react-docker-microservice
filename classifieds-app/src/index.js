@@ -1,11 +1,15 @@
+import "@babel/polyfill";
 import React from 'react';
 import { render } from 'react-dom';
 import Root from './components/Root';
-import { createGlobalStyle} from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+
+import * as theme from "./theme";
+import { ApolloProvider } from "@apollo/react-hooks";
+import graphqlClient from '#root/api/graphqlClient';
 
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 html, body, #app {
     height: 100%;
@@ -20,10 +24,12 @@ body {
 `;
 
 render(
-    <>
-    <GlobalStyle></GlobalStyle>
-        <Root></Root>
-        </>
+    <ApolloProvider client={graphqlClient}>
+        <ThemeProvider theme={theme}>
+            <GlobalStyle></GlobalStyle>
+            <Root></Root>
+        </ThemeProvider>
+    </ApolloProvider>
     , document.getElementById("app"));
 
 

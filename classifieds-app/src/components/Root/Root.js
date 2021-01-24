@@ -26,11 +26,16 @@ const Wrapper = styled.div`
 `;
 
 const Root = () => {
+    // return <h1>hola</h1>
     return <Wrapper>
-        <Container>
+         <Container>
             <Content>Root classifieds app</Content>
-            <Sidebar><Login></Login></Sidebar>
-        </Container>
+            <Sidebar>
+                <Login></Login>
+                
+            </Sidebar>
+        </Container >
+        
     </Wrapper>
 }
  

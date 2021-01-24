@@ -18,7 +18,7 @@ const setupRoutes = app => {
                 attributes: {},
                 where: {
                     email: req.body.email
-                }                
+                }
             });
 
             if (!user) return next(Error("Invalid email!"))
@@ -26,9 +26,9 @@ const setupRoutes = app => {
             console.log("pass: " + req.body.password + " hash:" + user.passwordHash);
 
             const validatePassword = await passwordComparedSync(req.body.password, user.passwordHash);
-            if (!validatePassword){
+            if (!validatePassword) {
                 return next(Error("Incorrect password!"))
-            }            
+            }
 
             const expiresAt = addHours(new Date(), USER_SESSION_EXPIRY_HOURS);
             const sessionToken = generateUUID();
@@ -38,6 +38,18 @@ const setupRoutes = app => {
                 id: sessionToken,
                 userId: user.id
             })
+
+            return res.json(userSession);
+        } catch (e) {
+            return next(e);
+        }
+    });
+
+    app.get("/sessions/:sessionId", async (req, res, next) => {
+        try {
+            const userSession = await UserSession.findByPk(req.params.sessionId);
+
+            if (!userSession) return next(new Error("Invalid userSession id"));
 
             return res.json(userSession);
         } catch (e) {
@@ -64,6 +76,19 @@ const setupRoutes = app => {
             return next(e);
         }
     });
-}
+
+    app.get("/users/:userId", async (req, res, next) => {
+        try {
+            const user = await User.findByPk(req.params.userId);
+
+            if (!user) return next(new Error("Invalid user id"));
+
+            return res.json(user);
+        } catch (e) {
+            return next(e);
+        }
+    });
+
+};
 
 export default setupRoutes;
