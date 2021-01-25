@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/react-hooks";
 import React from 'react';
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import TextInput from '../../shared/TextInput';
+import TextInput from '../../../shared/TextInput';
 import gql from "graphql-tag";
 
 const Label = styled.label`

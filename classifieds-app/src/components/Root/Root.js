@@ -1,6 +1,13 @@
-import React from 'react';
+
+import gql from "graphql-tag";
+import graphqlClient from "#root/api/graphqlClient"
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import Login from './Login';
+
+import { useDispatch } from "react-redux";
+import { setSession } from "#root/store/ducks/session";
+import AccountDetails from "./AccountDetails/accountDetails";
+
 
 const Container = styled.div`
     display: flex;
@@ -25,17 +32,40 @@ const Wrapper = styled.div`
     width: 100%;
 `;
 
+const query = gql`
+    {
+        userSession(me: true){
+            id
+            user{
+                email
+                id
+            }
+        }
+    }
+`;
+
 const Root = () => {
-    // return <h1>hola</h1>
+    const dispatch = useDispatch();
+
+    const [initialised, setInitialised] = useState(false);
+
+    useEffect(() => {
+        graphqlClient.query({ query }).then(({ data }) => {
+            if (data.userSession) {
+                dispatch(setSession(data.userSession));
+            }
+            setInitialised(true);
+        })
+    }, []);
+
+    if(!initialised) return "Loading..."
     return <Wrapper>
          <Container>
             <Content>Root classifieds app</Content>
             <Sidebar>
-                <Login></Login>
-                
+                <AccountDetails></AccountDetails>
             </Sidebar>
-        </Container >
-        
+        </Container >        
     </Wrapper>
 }
  

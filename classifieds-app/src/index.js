@@ -8,6 +8,8 @@ import * as theme from "./theme";
 import { ApolloProvider } from "@apollo/react-hooks";
 import graphqlClient from '#root/api/graphqlClient';
 
+import store from './store';
+import { Provider } from "react-redux";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -24,12 +26,14 @@ body {
 `;
 
 render(
-    <ApolloProvider client={graphqlClient}>
-        <ThemeProvider theme={theme}>
-            <GlobalStyle></GlobalStyle>
-            <Root></Root>
-        </ThemeProvider>
-    </ApolloProvider>
+    <Provider store={store}>
+        <ApolloProvider client={graphqlClient}>
+            <ThemeProvider theme={theme}>
+                <GlobalStyle></GlobalStyle>
+                <Root></Root>
+            </ThemeProvider>
+        </ApolloProvider>
+   </Provider>
     , document.getElementById("app"));
 
 
