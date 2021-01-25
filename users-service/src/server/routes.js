@@ -47,11 +47,26 @@ const setupRoutes = app => {
 
     app.get("/sessions/:sessionId", async (req, res, next) => {
         try {
+            console.log("app.get " + req.params.sessionId)
             const userSession = await UserSession.findByPk(req.params.sessionId);
 
             if (!userSession) return next(new Error("Invalid userSession id"));
 
             return res.json(userSession);
+        } catch (e) {
+            return next(e);
+        }
+    });
+
+    app.delete("/sessions/:sessionId", async (req, res, next) => {
+        try {
+            const userSession = await UserSession.findByPk(req.params.sessionId);
+
+            if (!userSession) return next(new Error("Invalid userSession id"));
+
+            await userSession.destroy();
+
+            return res.end();
         } catch (e) {
             return next(e);
         }

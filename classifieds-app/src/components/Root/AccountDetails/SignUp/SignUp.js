@@ -1,11 +1,10 @@
 import { useMutation } from "@apollo/react-hooks";
 import React from 'react';
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import TextInput from '../../../shared/TextInput';
 import gql from "graphql-tag";
-import { setSession } from "#root/store/ducks/session";
+import * as yup from "yup";
 
 const Label = styled.label`
     display: block;
@@ -20,51 +19,49 @@ const LabelText = styled.strong`
     margin-top: .25rem;    
 `;
 
-const LoginButton = styled.button`
+const SignUpButton = styled.button`
     display: inline-block;
     font-size: .9rem;
     margin-button: .5rem;
 `;
 
-const OrSignUp = styled.span`
+const OrLogin = styled.span`
     font-size: .9rem;
 `;
 
 const mutation = gql`
     mutation($email:String!, $password: String!){
-        createUserSession(email: $email, password: $password){
+        createUser(email: $email, password: $password){
             id
-            user {
-                email,
-                id                
-            }
         }
     }
 `;
 
-const Login = ({ onChangeToSignUp: pushChangeToSignUp }) => {
-    const [createUserSession] = useMutation(mutation);
-    const dispatch = useDispatch();
+const validationSchema = yup.object().shape({
+    email: yup.string().required(),
+    password: yup.string().required().test("sameAsConfirmPassword", "${path} is not the same as the confirmation password", function () {
+        return this.parent.password === this.parent.confirmPassword;
+    })
+})
+
+const SignUp = ({ onChangeToLogin: pushChangeToLogin }) => {
+    const [createUser] = useMutation(mutation);
     const {
-        formState: { isSubmitting },
+        formState: { isSubmitting, isValid },
         handleSubmit,
-        register
-    } = useForm();
+        register,
+        reset
+    } = useForm({mode: "onChange", validationSchema});
 
     const onSubmit = handleSubmit(async ({ email, password }) => {
-        const {
-            data: {
-                createUserSession: createdSession
-
-            }
-        } = await createUserSession({
+        await createUser({
             variables: {
                 email,
                 password
             }
         });
-
-        dispatch(setSession(createdSession));
+        reset();
+        pushChangeToLogin();
 
     });
 
@@ -72,17 +69,22 @@ const Login = ({ onChangeToSignUp: pushChangeToSignUp }) => {
         <Label>
             <LabelText>Email</LabelText>
             <TextInput disabled={isSubmitting} name="email" type="email" ref={register}></TextInput>
+            
             <LabelText>Password</LabelText>
             <TextInput disabled={isSubmitting} name="password" type="password" ref={register}></TextInput>
-            <LoginButton disabled={isSubmitting} type="submit">Login</LoginButton>
-            {" "}<OrSignUp> or {" "}
+
+            <LabelText>Confirm Password</LabelText>
+            <TextInput disabled={isSubmitting} name="confirmPassword" type="password" ref={register}></TextInput>
+
+            <SignUpButton disabled={isSubmitting || !isValid} type="submit">Sign Up</SignUpButton>
+            {" "}<OrLogin> or {" "}
                 <a href="#" onClick={evt => {
-                evt.preventDefault();
-                pushChangeToSignUp();
-                }}>Sign Up</a>
-            </OrSignUp>
+                    evt.preventDefault();
+                    pushChangeToLogin();
+                }}>Login</a>
+            </OrLogin>
         </Label>
     </form>;
 }
 
-export default Login;
+export default SignUp;
