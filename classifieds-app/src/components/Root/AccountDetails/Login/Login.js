@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import TextInput from '../../../shared/TextInput';
+import TextInput from '#root/components/shared/TextInput';
 import gql from "graphql-tag";
 import { setSession } from "#root/store/ducks/session";
 

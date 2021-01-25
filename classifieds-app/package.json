@@ -18,6 +18,8 @@
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
     "gar": "^1.0.4",
+    "gr": "^0.0.1",
+    "grap": "^1.0.0",
     "graphql": "^0.7.0",
     "graphql-tag": "^2.11.0",
     "reac": "^0.0.0",

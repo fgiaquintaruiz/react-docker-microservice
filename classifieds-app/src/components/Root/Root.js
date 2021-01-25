@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setSession } from "#root/store/ducks/session";
 import AccountDetails from "./AccountDetails/accountDetails";
-
+import Listings from "./Listings";
 
 const Container = styled.div`
     display: flex;
@@ -61,7 +61,9 @@ const Root = () => {
     if(!initialised) return "Loading..."
     return <Wrapper>
          <Container>
-            <Content>Root classifieds app</Content>
+            <Content>
+                <Listings></Listings>
+            </Content>
             <Sidebar>
                 <AccountDetails></AccountDetails>
             </Sidebar>
