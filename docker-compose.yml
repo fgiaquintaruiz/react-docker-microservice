@@ -4,12 +4,15 @@ services:
     api-gateway:
         build: "./api-gateway"
         depends_on:
-             - listings-service
-             - users-service
-        volumes:
-            - ./api-gateway:/opt/app
+            - listings-service
+            - users-service
+        environment:
+            - LISTINGS_SERVICE_URI=http://listings-service:7100
+            - USERS_SERVICE_URI=http://users-service:7101
         ports:
             - 7000:7000
+        volumes:
+            - ./api-gateway:/opt/app        
 
     listings-service:
         build: "./listings-service"

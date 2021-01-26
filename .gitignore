@@ -3,3 +3,6 @@
 **/yarn-error.log
 **/.cache/
 **/dist/
+**/terraform.tfvars
+**/microservices_demo.*
+**/.terraform/

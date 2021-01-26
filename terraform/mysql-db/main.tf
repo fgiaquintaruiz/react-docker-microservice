@@ -1,0 +1,19 @@
+resource "aws_db_instance" "default" {
+    allocated_storage = 20
+    #   General purpose 2 aws documentacion
+    storage_type = "gp2"
+    engine = "mysql"
+    apply_immediately = var.apply-immediately
+    db_subnet_group_name = var.db-subnet-group-name
+    engine_version = var.engine-version
+    identifier = var.identifier
+    instance_class = var.instance-class
+    name = var.db-name
+    parameter_group_name = var.db-parameter-group-name
+    password = var.password
+    publicly_accesible = var.publicly-accesible
+    skip_final_snapshot = false
+    username = var.username
+    vpc_security_group_ids = var.vpc-security-group-ids
+
+}
