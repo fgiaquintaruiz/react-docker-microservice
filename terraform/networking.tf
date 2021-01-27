@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "microservices-demo" {
 resource "aws_route_table" "public" {
     vpc_id = aws_vpc.microservices-demo.id
 
-    route = {
+    route {
         cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.microservices-demo.id
     }
@@ -31,8 +31,67 @@ resource "aws_route_table_association" "microservices-demo-subnet-public" {
 
 resource "aws_security_group" "allow-internal-http" {
     name = "allow-internal-http"
-    description = "Aloww internal http requests"
-    vpc_id = 
+    description = "Allow internal http requests"
+    vpc_id = aws_vpc.microservices-demo.id
+
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = [aws_vpc.microservices-demo.cidr_block]
+    }
+}
+
+resource "aws_security_group" "allow-internal-mysql" {
+    name = "allow-internal-mysql"
+    description = "Allow internal mysql requests"
+    vpc_id = aws_vpc.microservices-demo.id
+
+    ingress {
+        from_port = 3306
+        to_port = 3306
+        protocol = "tcp"
+        cidr_blocks = [aws_vpc.microservices-demo.cidr_block]
+    }
+}
+
+resource "aws_security_group" "allow-http" {
+    name = "allow-http"
+    description = "Allow http inbound traffic"
+    vpc_id = aws_vpc.microservices-demo.id
+
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "allow-ssh" {
+    name = "allow-ssh"
+    description = "Allow ssh inbound traffic"
+    vpc_id = aws_vpc.microservices-demo.id
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+resource "aws_security_group" "allow-all-outbound" {
+    name = "allow-all-outbound"
+    description = "Allow all outbound traffic"
+    vpc_id = aws_vpc.microservices-demo.id
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
 }
 
 resource "aws_subnet" "microservices-demo-subnet-public" {
@@ -69,7 +128,7 @@ resource "aws_subnet" "microservices-demo-subnet-private-2" {
 
 resource "aws_vpc" "microservices-demo" {
     cidr_block = "10.0.0.0/16"
-    enables_dns_hostnames = true
+    enable_dns_hostnames = true
 
     tags = {
         Name = "Microservices Demo VPC"

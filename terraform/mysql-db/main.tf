@@ -11,7 +11,7 @@ resource "aws_db_instance" "default" {
     name = var.db-name
     parameter_group_name = var.db-parameter-group-name
     password = var.password
-    publicly_accesible = var.publicly-accesible
+    publicly_accessible = false
     skip_final_snapshot = false
     username = var.username
     vpc_security_group_ids = var.vpc-security-group-ids

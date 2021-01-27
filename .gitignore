@@ -6,3 +6,5 @@
 **/terraform.tfvars
 **/microservices_demo.*
 **/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup

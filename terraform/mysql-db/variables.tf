@@ -1,4 +1,4 @@
-variable "apply-immediatly" {
+variable "apply-immediately" {
     default = false
     type = bool
 }
@@ -25,7 +25,7 @@ variable "instance-class" {
     type = string
 }
 
-variable "paramter-group-name" {
+variable "db-parameter-group-name" {
     default = "default.mysql5.7"
     type = string
 }

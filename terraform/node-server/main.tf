@@ -10,17 +10,13 @@ resource "aws_instance" "default" {
     user_data = <<EOF
 #!/bin/bash
 cd /tmp
-echo '
-#!/bin/bash
+echo '#!/bin/bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 source ~/.bashrc
 nvm i 12.13.0
-#install yarn
-curl -o- https://yarnpkg.com/install.sh | bash
-
+curl -o- https://classic.yarnpkg.com/install.sh | bash
 sudo yum install -y ruby wget
 cd ~
-#gets the agent to be able to deploy code
 wget https://aws-codedeploy-ap-southeast-2.s3.ap-southeast-2.amazonaws.com/latest/install
 chmod +x ./install
 sudo ./install auto
