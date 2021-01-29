@@ -14,3 +14,4 @@ classifieds-app/.aws/credentials
 api-gateway/.production.env
 listings-service/.production.env
 users-service/.production.env
+classifieds-app/.env.production
