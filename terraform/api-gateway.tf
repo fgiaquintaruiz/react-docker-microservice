@@ -6,6 +6,7 @@ module "api-gateway" {
     source = "./node-server"
 
     ami-id = "ami-022082b7f1da62478"
+    iam-instance-profile = module.api-gateway-codedeploy.iam-instance-profile
     key-pair = aws_key_pair.microservices-demo-key.key_name
     name = "api-gateway"
     subnet-id = aws_subnet.microservices-demo-subnet-public.id
@@ -16,4 +17,11 @@ module "api-gateway" {
 
     ]
 
+}
+
+module "api-gateway-codedeploy" {
+    source = "./codedeploy-app"
+
+    app-name = "api-gateway"
+    ec2-instance-name = module.api-gateway.name
 }

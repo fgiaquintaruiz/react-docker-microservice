@@ -6,6 +6,7 @@ module "listings-service" {
     source = "./node-server"
 
     ami-id = "ami-022082b7f1da62478"
+    iam-instance-profile = module.listings-service-codedeploy.iam-instance-profile
     key-pair = aws_key_pair.microservices-demo-key.key_name
     name = "listings-service"
     private-ip = "10.0.1.5"
@@ -17,6 +18,13 @@ module "listings-service" {
 
     ]
 
+}
+
+module "listings-service-codedeploy" {
+    source = "./codedeploy-app"
+
+    app-name = "listings-service"
+    ec2-instance-name = module.listings-service.name
 }
 
 module "listings-service-db" {
@@ -34,3 +42,4 @@ module "listings-service-db" {
     ]
 
 }
+

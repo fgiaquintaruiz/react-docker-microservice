@@ -8,3 +8,6 @@
 **/.terraform/
 terraform/terraform.tfstate
 terraform/terraform.tfstate.backup
+**/.deploy.env
+classifieds-app/deploy.sh
+classifieds-app/.aws/credentials

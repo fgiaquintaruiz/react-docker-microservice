@@ -34,6 +34,7 @@ const query = gql`
 const Listings = () => {
     const { data, loading, refetch } = useQuery(query);
     if (loading) return "Loading...";
+    if (!data) return "There are not listings published";
     return (
         <div>
             <div>

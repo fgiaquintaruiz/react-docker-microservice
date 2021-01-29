@@ -4,7 +4,11 @@ const createUserResolver = async (obj, { email, password }, context) => {
     console.log("resolver em: " + email + " pass: " + password);
     const userSession = await UsersService.createUserSession({ email, password });
 
-    context.res.cookie("userSessionId", userSession.id, { httpOnly: true });
+    context.res.cookie("userSessionId", userSession.id, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    });
     return userSession;
 };
 
