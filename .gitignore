@@ -11,3 +11,6 @@ terraform/terraform.tfstate.backup
 **/.deploy.env
 classifieds-app/deploy.sh
 classifieds-app/.aws/credentials
+api-gateway/.production.env
+listings-service/.production.env
+users-service/.production.env

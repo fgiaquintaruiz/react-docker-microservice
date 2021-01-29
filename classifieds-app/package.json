@@ -7,7 +7,7 @@
     "build": "rm -rf dit && NODE_ENV=production parcel build src/index.html",
     "buildw": "SET NODE_ENV=production parcel build src/index.html",
     "deploy": "./deploy.sh",
-    "predeploy": "yarn build",
+    "predeploy": "yarn buildw",
     "watch": "parcel --port=7001 src/index.html"
   },
   "devDependencies": {
