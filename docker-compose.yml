@@ -2,7 +2,9 @@ version: "3.2"
 services:
 
     api-gateway:
-        build: "./api-gateway"
+        build: 
+            context: "."
+            dockerfile: "./api-gateway/Dockerfile"
         depends_on:
             - listings-service
             - users-service
@@ -15,7 +17,9 @@ services:
             - ./api-gateway:/opt/app        
 
     listings-service:
-        build: "./listings-service"
+        build: 
+            context: "."
+            dockerfile: "./listings-service/Dockerfile"
         depends_on:
              - listings-service-db
         volumes:
@@ -35,7 +39,9 @@ services:
             - 7200:3306
     
     users-service:
-        build: "./users-service"
+        build: 
+            context: "."
+            dockerfile: "./users-service/Dockerfile"
         depends_on:
             - users-service-db
         volumes:
